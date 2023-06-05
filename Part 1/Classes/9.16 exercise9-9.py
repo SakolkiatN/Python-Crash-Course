@@ -1,0 +1,85 @@
+#the __init__() method for a child class
+class Car(): #<<< Parent class/superclass
+    """a simple attempt to represent a car."""
+    def __init__(self, make, model, year):
+        """Initialize attributes to describe a car"""
+        self.make = make
+        self.model = model
+        self.year = year
+        self.odometer_reading = 0 #<<<<<<<initial value
+
+    def get_descriptive(self):
+        '''Return a neatly formatted descriptive name.'''
+        long_name = str(self.year) + ' ' + self.make + ' ' + self.model
+        return long_name.title()
+    def read_odometer(self):
+        '''Print a statement showing the cat's mileage.'''
+        print("This car has " + str(self.odometer_reading) + ' miles on it.' )
+#Variables and Simple Data Types.modifying an attribute's value through a method
+    def update_odometer(self, mileage):
+        '''
+        Set the odometer reading to the given value.
+        Reject the change if it attempts to roll the odometerback
+        '''
+        if mileage >= self.odometer_reading:
+            self.odometer_reading = mileage
+        else:
+            print("You can't roll back an odometer!")
+
+    def increment_odometer(self, miles):
+        '''Add the given amount to the odometer reading'''
+        self.odometer_reading += miles
+"""
+ 1
+ 1
+vvv   this is inheritance
+"""
+class Battery():
+    """A simple attempt to model a battery for an electric car."""
+    def __init__(self, battery_size=70):
+        self.battery_size = battery_size
+    def describe_battery(self):
+        print("This car has a " + str(self.battery_size) + "-kWh battery.")
+    def get_range(self):
+        """Print a statement about the range this battery provides."""
+        if self.battery_size == 70:
+            range = 240
+        elif self.battery_size == 85:
+            range = 270
+
+        message = "This car can go approxiamtely " + str(range)
+        message += " miles on a full charge."
+        print(message)
+
+    def upgrade_battery(self):
+        if self.battery_size == 85:
+            print("This car has a 85-kWh battery.")
+        else:
+            self.battery_size = 85
+            print("This car has successfully upgraded to 85-kWh battery.")
+
+
+
+class ElectricCar(Car): #<<< Child class [must include parent class in parenthesis]
+    '''represent aspects of a car, specific to electric vehicles'''
+    def __init__(self, make, model, year):
+        '''
+        Initialize attributes of the parent class.
+        then initialize attributes specific to an electric car.
+        '''
+        super().__init__(make, model, year)
+##      ^^^^^ super() function helps python make connections between the parent and child class
+        self.battery = Battery()
+
+
+
+my_tesla = ElectricCar('tesla', 'model', 2016)
+print(my_tesla.get_descriptive())
+my_tesla.battery.describe_battery()
+my_tesla.battery.get_range()
+
+my_tesla.battery.upgrade_battery()
+my_tesla.battery.describe_battery()
+my_tesla.battery.get_range()
+
+
